@@ -6,8 +6,16 @@
     "start": "next start"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.17",
+    "graphql": "^16.7.1",
     "next": "latest",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "touch-cli": "^0.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "20.4.5",
+    "@types/react": "18.2.17",
+    "typescript": "5.1.6"
   }
 }

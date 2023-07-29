@@ -1,115 +1,98 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
+import Layout, { siteTitle } from '../components/layout';
+import utilStyles from '../styles/utils.module.css';
+import { getSortedPostsData } from '../lib/posts';
+import { gql } from "@apollo/client";
+import client from "../apollo-client";
+import Image from 'next/image';
+// import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next';
 
-export default function Home() {
+// export const getStaticProps: GetStaticProps = async (context) {
+//   const allPostsData = getSortedPostsData();
+//   return {
+//     props: {
+//       allPostsData,
+//     },
+//   };
+// }
+export async function getStaticProps() {
+  const query = gql`
+  query ($page: Int) { 
+    Page(page: $page, perPage: 10) {
+      media(sort: TRENDING_DESC, type: ANIME) {
+        coverImage {
+          extraLarge
+        }
+        episodes
+        genres
+        bannerImage
+        seasonYear
+        title {
+          english
+          native
+        }
+      }
+    }
+  }
+  `;
+
+  const { data } = await client.query({
+    query: query,
+    variables: {
+      page: 1
+    }
+  })
+ 
+  // console.log("KOKOs")
+  return {
+    props: {
+      animes: data.Page.media,
+    },
+ };
+
+}
+
+// export async function getStaticProps() {
+//   const allPostsData = getSortedPostsData();
+//   console.log(allPostsData)
+//   return {
+//     props: {
+//       allPostsData,
+//     },
+//   };
+// }
+
+export default function Home({animes}) { //Home({ allPostsData })
   return (
-    <div className={styles.container}>
+    <Layout home={true} siteTitle={'Anime Collections'}>
+      {console.log(animes)}
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        {/* <title>{siteTitle}</title> */}
+        <title>Anime Collections</title>
       </Head>
-
-      <main>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing <code>pages/index.js</code>
+      <section className={utilStyles.headingMd}>
+        <p>This is anime collections</p>
+        <p>
+          (This is a sample website - you’ll be building a site like this on{' '}
+          <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
         </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className={styles.logo} />
-        </a>
-      </footer>
-
-      <style jsx>{`
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        footer img {
-          margin-left: 0.5rem;
-        }
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-decoration: none;
-          color: inherit;
-        }
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
+      </section>
+      <div className={styles.grid}>
+        {/* {countries.title.native} */}
+        {animes.map((anime) => (
+          <div key={anime.title.english} className={styles.card}>
+           <h3>{anime.title.english}</h3>
+           {/* <h5>{anime.coverImage}</h5> */}
+           <Image
+                src={anime.coverImage.extraLarge} // Route of the image file
+                height={144} // Desired size with correct aspect ratio
+                width={144} // Desired size with correct aspect ratio
+                alt="Your Name"
+            />
+          </div>
+        ))} 
+      </div>
+    </Layout>
   )
 }

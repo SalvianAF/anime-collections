@@ -3,8 +3,46 @@ import Image from 'next/image';
 import Head from 'next/head';
 import Script from 'next/script';
 import Layout from '../../components/layout';
+import { gql } from '@apollo/client';
+import client from '../../apollo-client';
 
-export default function anime() {
+export async function getStaticProps() {
+    const query = gql`
+    query ($mediaId: Int) { 
+        Media(id: $mediaId) {
+            coverImage {
+                extraLarge
+              }
+            bannerImage
+            description
+            duration
+            episodes
+            genres
+            seasonYear
+            title {
+              english
+              native
+            }
+        }
+    }
+    `;
+  
+    const { data } = await client.query({
+      query: query,
+      variables: {
+        mediaId: 145064
+      }
+    })
+  
+    return {
+      props: {
+        anime: data.Media,
+      },
+   };
+  
+  }
+
+export default function anime({anime}) {
     return (
         <Layout>
              <Head>
@@ -22,7 +60,7 @@ export default function anime() {
                 <Link href="/">Back to home</Link>
             </h2>
             <Image
-                src="/images/profile.jpg" // Route of the image file
+                src={anime.coverImage.extraLarge} // Route of the image file
                 height={144} // Desired size with correct aspect ratio
                 width={144} // Desired size with correct aspect ratio
                 alt="Your Name"

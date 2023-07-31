@@ -5,11 +5,17 @@ import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
 
 const name = 'Your Name';
-export const siteTitle = 'Next.js Sample Website';
+// export const siteTitle = 'Next.js Sample Website';
 
-export default function Layout({ children, home,  }) {
+interface LayoutProps {
+    children: any,
+    home: boolean,
+    siteTitle: string
+}
+
+export default function Layout(layoutProps:LayoutProps) {
     return (
-        <div className={styles.container}>
+        <div>
             <Head>
                 <link rel="icon" href="/favicon.ico" />
                 <meta
@@ -19,14 +25,17 @@ export default function Layout({ children, home,  }) {
                 <meta
                 property="og:image"
                 content={`https://og-image.vercel.app/${encodeURI(
-                    siteTitle,
+                    layoutProps.siteTitle,
                 )}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`}
                 />
-                <meta name="og:title" content={siteTitle} />
+                <meta name="og:title" content={layoutProps.siteTitle} />
                 <meta name="twitter:card" content="summary_large_image" />
+                <title>{layoutProps.siteTitle}</title>
             </Head>
-            <header className={styles.header}>
-                {home ? (
+            <div className={styles.header}>
+                <Link href="/" className={styles.webname}>
+                
+                {/* {layoutProps.home ? (
                 <>
                     <Image
                     priority
@@ -56,14 +65,16 @@ export default function Layout({ children, home,  }) {
                     </Link>
                     </h2>
                 </>
-                )}
-            </header>
-            <main>{children}</main>
-            {!home && (
+                )} */}
+                    <h2>MY ANIME LIST</h2>
+                </Link>
+            </div>
+            <main className={styles.container}>{layoutProps.children}</main>
+            {/* {!layoutProps.home && (
                 <div className={styles.backToHome}>
                 <Link href="/">← Back to home</Link>
                 </div>
-            )}
+            )} */}
         </div>
     );
   }

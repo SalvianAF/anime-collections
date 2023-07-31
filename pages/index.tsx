@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import Layout, { siteTitle } from '../components/layout';
+import Layout from '../components/layout';
+import Card from '../components/card';
 import utilStyles from '../styles/utils.module.css';
 import { getSortedPostsData } from '../lib/posts';
 import { gql } from "@apollo/client";
@@ -16,21 +17,41 @@ import Image from 'next/image';
 //     },
 //   };
 // }
+
+interface AnimesProps {
+  animes:[
+    {
+      __typename: string,
+      id: number,
+      coverImage: {
+        __typename: string,
+        extraLarge: string
+      },
+      averageScore:number
+      title:{
+        __typename:string,
+        english:string,
+        native:string
+      }
+    },
+    
+  ]
+  
+}
+
+
 export async function getStaticProps() {
   const query = gql`
   query ($page: Int) { 
     Page(page: $page, perPage: 10) {
       media(sort: TRENDING_DESC, type: ANIME) {
+        id
         coverImage {
           extraLarge
         }
-        episodes
-        genres
-        bannerImage
-        seasonYear
+        averageScore
         title {
           english
-          native
         }
       }
     }
@@ -43,8 +64,7 @@ export async function getStaticProps() {
       page: 1
     }
   })
- 
-  // console.log("KOKOs")
+
   return {
     props: {
       animes: data.Page.media,
@@ -53,24 +73,11 @@ export async function getStaticProps() {
 
 }
 
-// export async function getStaticProps() {
-//   const allPostsData = getSortedPostsData();
-//   console.log(allPostsData)
-//   return {
-//     props: {
-//       allPostsData,
-//     },
-//   };
-// }
-
-export default function Home({animes}) { //Home({ allPostsData })
+export default function Home(animesProps:AnimesProps) { //Home(animes:AnimesProps[])
   return (
     <Layout home={true} siteTitle={'Anime Collections'}>
-      {console.log(animes)}
-      <Head>
-        {/* <title>{siteTitle}</title> */}
-        <title>Anime Collections</title>
-      </Head>
+      {console.log(animesProps)}
+      
       <section className={utilStyles.headingMd}>
         <p>This is anime collections</p>
         <p>
@@ -80,17 +87,20 @@ export default function Home({animes}) { //Home({ allPostsData })
       </section>
       <div className={styles.grid}>
         {/* {countries.title.native} */}
-        {animes.map((anime) => (
-          <div key={anime.title.english} className={styles.card}>
-           <h3>{anime.title.english}</h3>
-           {/* <h5>{anime.coverImage}</h5> */}
-           <Image
-                src={anime.coverImage.extraLarge} // Route of the image file
-                height={144} // Desired size with correct aspect ratio
-                width={144} // Desired size with correct aspect ratio
-                alt="Your Name"
-            />
-          </div>
+        {animesProps.animes.map((anime) => (
+          // <div key={anime.title.english} className={styles.card}>
+          //  {/* <h5>{anime.coverImage}</h5> */}
+          //  {/* <div> */}
+          //  <h4 className={styles.score}>{anime.averageScore}</h4>
+          //  <Image
+          //       src={anime.coverImage.extraLarge} // Route of the image file
+          //       height={350} // Desired size with correct aspect ratio
+          //       width={350} // Desired size with correct aspect ratio
+          //       alt="Your Name"
+          //   />
+          //   <h4 className={styles.titleanime}>{anime.title.english}</h4>
+          // </div>
+          <Card score={anime.averageScore} image={anime.coverImage.extraLarge} title={anime.title.english} id={anime.id}/>
         ))} 
       </div>
     </Layout>

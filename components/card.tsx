@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import styles from './card.module.css';
 import Link from 'next/link';
+import { Star } from '@mui/icons-material';
 
 // const name = 'Your Name';
 // export const siteTitle = 'Next.js Sample Website';
@@ -18,7 +19,7 @@ export default function Card(cardProps:CardProps) {
             <Link href={`/detail/${cardProps.id}`}>
            {/* <h5>{anime.coverImage}</h5> */}
            {/* <div> */}
-           <h4 className={styles.score}>{cardProps.score}</h4>
+           <h4 className={styles.score}><Star fontSize="medium" sx={{ color: "#e89e00"}}/>{cardProps.score}</h4>
            <Image
                 src={cardProps.image} // Route of the image file
                 height={350} // Desired size with correct aspect ratio

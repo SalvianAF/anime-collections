@@ -7,6 +7,8 @@ import { getSortedPostsData } from '../lib/posts';
 import { gql } from "@apollo/client";
 import client from "../apollo-client";
 import Image from 'next/image';
+import { Pagination } from '@mui/material';
+import { useEffect, useState } from 'react';
 // import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next';
 
 // export const getStaticProps: GetStaticProps = async (context) {
@@ -35,12 +37,16 @@ interface AnimesProps {
       }
     },
     
-  ]
+  ],
+  page : {
+    __typename:string,
+    total:number,
+  }
   
 }
 
 
-export async function getStaticProps() {
+export async function getStaticProps() { //for initial data
   const query = gql`
   query ($page: Int) { 
     Page(page: $page, perPage: 10) {
@@ -54,6 +60,9 @@ export async function getStaticProps() {
           english
         }
       }
+      pageInfo {
+        total
+      }
     }
   }
   `;
@@ -65,18 +74,65 @@ export async function getStaticProps() {
     }
   })
 
+  // console.log(data.Page.pageInfo)
+
   return {
     props: {
       animes: data.Page.media,
+      page: data.Page.pageInfo
     },
- };
+  };
 
 }
 
 export default function Home(animesProps:AnimesProps) { //Home(animes:AnimesProps[])
-  return (
+  const [data, setData] = useState(animesProps.animes)
+  // const [page, setPage] = useState(animesProps.page.total)
+
+  const fetchAnimes = async(page) => { //update data on page changes
+    const query = gql`
+    query ($page: Int) { 
+      Page(page: $page, perPage: 10) {
+        media(sort: TRENDING_DESC, type: ANIME) {
+          id
+          coverImage {
+            extraLarge
+          }
+          averageScore
+          title {
+            english
+          }
+        }
+        pageInfo {
+          total
+        }
+      }
+    }
+    `;
+  
+    const { data } = await client.query({
+      query: query,
+      variables: {
+        page: page
+      }
+    })
+
+
+    window.scrollTo({
+      top: 0, 
+      behavior: 'smooth'
+      /* you can also use 'auto' behaviour
+        in place of 'smooth' */
+    });
+  
+  
+   setData(data.Page.media)
+  }
+
+
+   return (
     <Layout home={true} siteTitle={'Anime Collections'}>
-      {console.log(animesProps)}
+      {console.log(data)}
       
       <section className={utilStyles.headingMd}>
         <p>This is anime collections</p>
@@ -84,10 +140,11 @@ export default function Home(animesProps:AnimesProps) { //Home(animes:AnimesProp
           (This is a sample website - you’ll be building a site like this on{' '}
           <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
         </p>
+        <h2 style={{textAlign:"center"}}>Trending Now</h2>
       </section>
       <div className={styles.grid}>
         {/* {countries.title.native} */}
-        {animesProps.animes.map((anime) => (
+        {data.map((anime) => (
           // <div key={anime.title.english} className={styles.card}>
           //  {/* <h5>{anime.coverImage}</h5> */}
           //  {/* <div> */}
@@ -102,6 +159,9 @@ export default function Home(animesProps:AnimesProps) { //Home(animes:AnimesProp
           // </div>
           <Card score={anime.averageScore} image={anime.coverImage.extraLarge} title={anime.title.english} id={anime.id}/>
         ))} 
+      </div>
+      <div className={styles.pagination}>
+        <Pagination count={animesProps.page.total}  size="large" onChange={(e,value) => fetchAnimes(value)}/>
       </div>
     </Layout>
   )

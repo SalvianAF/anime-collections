@@ -5,6 +5,10 @@ import { gql } from "@apollo/client";
 import client from "../../apollo-client";
 import Image from 'next/image';
 import styles from '../../styles/anime.module.css';
+import ModalInput from '../../components/modalCollection';
+import { CircularProgress, Button} from '@mui/material';
+import ModalCollection from '../../components/modalCollection';
+import path from 'path';
 
 // export async function getStaticPaths() {
 //     const paths = getAllPostIds(); // isinya possible path
@@ -24,7 +28,13 @@ import styles from '../../styles/anime.module.css';
 // }
 
 // export async function getStaticPaths() {
-//   const paths = getAllPostIds();
+//   const paths = {params: {
+//     id: 100,
+//   }}
+//   // for (let i = 0; i < 5000; i++) {
+//   //   paths.push(i)
+//   // }
+//   // const paths = getAllPostIds();
 //   return {
 //     paths,
 //     fallback: false,
@@ -34,41 +44,42 @@ import styles from '../../styles/anime.module.css';
 
 
 // export async function getStaticProps() {
-  // const router = useRouter()
-  // const id = router.asPath.split('/detail/')[1] //get id from path
-  // console.log(id)
-  // const query = gql`
-  // query ($mediaId: Int) { 
-  //   Media(id: $mediaId) {
-  //     bannerImage
-  //     coverImage {
-  //       extraLarge
-  //     }
-  //     duration
-  //     description
-  //     episodes
-  //     genres
-  //     popularity
-  //     status
-  //     title {
-  //       english
-  //       native
-  //     }
-  //   }
-  // }
-  // `;
+//   const router = useRouter()
+//   const id = router.asPath.split('/detail/')[1] //get id from path
+//   console.log(id)
+//   const query = gql`
+//     query ($mediaId: Int) { 
+//       Media(id: $mediaId) {
+//         bannerImage
+//         coverImage {
+//           extraLarge
+//         }
+//         id
+//         duration
+//         description
+//         episodes
+//         genres
+//         averageScore
+//         status
+//         title {
+//           english
+//           native
+//         }
+//       }
+//     }
+//     `;
 
-  // const { data } = await client.query({
-  //   query: query,
-  //   variables: {
-  //     mediaId: 146065
-  //   }
-  // })
+//   const { data } = await client.query({
+//     query: query,
+//     variables: {
+//       mediaId: 146065
+//     }
+//   })
 
-  // return {
-    // props: {
-    //   anime: data.Media,
-    // },
+//   return {
+//     props: {
+//       anime: data.Media,
+//     },
 //  };
 
 // }
@@ -94,34 +105,36 @@ interface DetailInterface {
   
 }
 
-export default function Anime() {
+export default function Anime(anime) {
   //coba useeffect
   const [detail, setDetail]  = useState<DetailInterface>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isModal, setIsModal] = useState<boolean>(false)
   const router = useRouter()
   const id = Number(router.asPath.split('/detail/')[1])//get id from path
 
   const fetchDetailAnime = async() => {
     const query = gql`
-  query ($mediaId: Int) { 
-    Media(id: $mediaId) {
-      bannerImage
-      coverImage {
-        extraLarge
-      }
-      duration
-      description
-      episodes
-      genres
-      averageScore
-      status
-      title {
-        english
-        native
+    query ($mediaId: Int) { 
+      Media(id: $mediaId) {
+        bannerImage
+        coverImage {
+          extraLarge
+        }
+        id
+        duration
+        description
+        episodes
+        genres
+        averageScore
+        status
+        title {
+          english
+          native
+        }
       }
     }
-  }
-  `;
+    `;
 
   const { data } = await client.query({
     query: query,
@@ -136,12 +149,17 @@ export default function Anime() {
 
   useEffect(() => {
     fetchDetailAnime()
-  },[id])
+  },[])
 
   return (
     <>
-    {isLoading? <></>:
-      <Layout home={false} siteTitle={detail.title.english}>
+    {isLoading? 
+      <div className={styles.loading}>
+        <CircularProgress sx={{color:"#e89e00"}}/>
+        <h4 style={{color:"#e89e00"}}>Getting Ready ...</h4>
+      </div>
+   :
+      <Layout siteTitle={detail.title.english}>
         {/* <h2>pathname:- {router.pathname}</h2> */}
         {}
         <div className={styles.bannercontainer}> 
@@ -169,7 +187,14 @@ export default function Anime() {
               alt="Your Name"
               // style={{}}
           />
+           <Button color='primary' variant="contained" className={styles.btncollection}
+           onClick={() => setIsModal(true)}>ADD TO COLLECTION</Button>
         </div>
+
+        {/* <div className={styles.buttoncontainer}>
+          <Button color='primary' variant="contained">ADD TO COLLECTION</Button>
+        </div> */}
+       
         <div className={styles.description}>
           <p dangerouslySetInnerHTML={{__html: detail.description}}></p>
         </div>
@@ -192,6 +217,7 @@ export default function Anime() {
         {console.log(detail)}
         {/* <h2>query:- {router.query}</h2> */}
           {/* <h2>asPath:- {router.asPath}</h2> */}
+        <ModalCollection isOpen={isModal} closeModal={() => setIsModal(false)} isAnimeDisabled={true} detailAnime={detail}/>
       </Layout>
     
     }

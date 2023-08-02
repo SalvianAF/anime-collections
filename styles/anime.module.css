@@ -11,9 +11,11 @@
 }
 
 .imagecontainer{
+    z-index: 1;
     background-color: rgb(0, 0, 0);
     /* width: 100%; */
     position: absolute;
+    /* display: block; */
     /* width: 100%; */
     width: 218px;
     height: 300px;
@@ -21,10 +23,12 @@
     padding: 3px;
     border-radius: 13px;
     left: 50%;
-    margin-left: -115px;
+    margin-left: -120px;
     transform: translateY(-40px);
     border: 1px solid black;
     box-shadow: 3px 3px black;
+    /* display: flex; */
+    /* justify-self: center; */
 }
 
 .image {
@@ -44,9 +48,15 @@
     /* height: unset !important; */
 }
 .description{
-    margin: 280px 40px 0 40px;
+    margin: 265px 40px 0 40px;
     text-align: justify;
 }
+
+.loading{
+    text-align: center;
+    margin-top: 20%;
+  }
+
 .content{
     /* margin-top: 280px; */
     margin: 30px 80px 0px 80px;
@@ -56,3 +66,17 @@
     border-top: 10px solid #6c6c6c;
     border-radius: 10px;
 }
+
+.btncollection{
+    border-radius: 10px;
+    font-size: smaller;
+    width: fit-content;
+    padding: 0px 10px 0px 10px;
+    margin-top: 118%;
+    margin-left:14px;
+}
+/* .buttoncontainer{
+    display: flex;
+    justify-content: end;
+    margin-top: 10px;
+} */

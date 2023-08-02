@@ -9,7 +9,7 @@ const name = 'Your Name';
 
 interface LayoutProps {
     children: any,
-    home: boolean,
+    // home: boolean,
     siteTitle: string
 }
 

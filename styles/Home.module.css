@@ -58,6 +58,12 @@
   justify-content: center;
 }
 
+
+.buttonadd{
+  display: flex;
+  justify-content: end;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;

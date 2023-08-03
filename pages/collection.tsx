@@ -8,6 +8,9 @@ import client from '../apollo-client';
 import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import styles from '../styles/collections.module.css';
+import ModalEditCollection from '../components/modalEditCollection';
+import ModalDeleteCollection from '../components/modalDeleteCollection';
+import ModalAddCollection from '../components/modalAddCollection';
 
 // export async function getStaticProps() {
 //     const tempCollections = localStorage.getItem('collections')
@@ -23,22 +26,32 @@ import styles from '../styles/collections.module.css';
 
 export default function collection() {
     const [collections, setCollections] = useState([])
+    const [isModalEdit, setIsModalEdit] = useState<boolean>(false)
+    const [isModalDelete, setIsModalDelete] = useState<boolean>(false)
+    const [isModalAdd, setIsModalAdd] = useState<boolean>(false)
+    const [collectionName, setCollectionName] = useState<string>("")
 
     useEffect(() => {
         getCollections()
-    }, [])
+    }, [isModalDelete, isModalEdit, isModalAdd])
 
     const getCollections = () => {
         const temp = JSON.parse(localStorage.getItem("collections"))
         const tempCollections = Object.keys(temp)
         console.log(tempCollections)
-        setCollections(tempCollections)
+        setCollections(tempCollections.reverse())
     }
 
 
     return (
         <Layout siteTitle='Collections'>
-             <h2>MY COLLECTIONS</h2>
+            <div className={styles.collectiontitle}>
+                <h2>MY COLLECTIONS</h2>
+                <Button variant='contained' color="primary" sx={{height:50, marginTop:"15px"}}
+                    onClick={() => {
+                        setIsModalAdd(true)
+                    }}>ADD NEW</Button>
+            </div>
              <div className={styles.collections}>
                 {collections.map((collection, idx) => (
                     // <div className={styles.collections}>
@@ -52,12 +65,23 @@ export default function collection() {
                                 <h3>{idx+1}. &nbsp;{collection}</h3>
                         </Link>
                         <div className={styles.actions}>
-                            <Button variant='contained' sx={{height:50, marginRight:2}}>EDIT</Button>
-                            <Button variant='outlined' color="secondary" sx={{height:50}}>DELETE</Button>
+                            <Button variant='contained' sx={{height:50, marginRight:2}}
+                            onClick={() => {
+                                setIsModalEdit(true)
+                                setCollectionName(collection)}
+                            }>EDIT</Button>
+                            <Button variant='outlined' color="secondary" sx={{height:50}}
+                            onClick={() => {
+                                setIsModalDelete(true)
+                                setCollectionName(collection)
+                            }}>DELETE</Button>
                         </div>
                     </div>
                 ))}
              </div>
+             <ModalEditCollection isOpen={isModalEdit} closeModal={() => setIsModalEdit(false)} collectionName={collectionName}/>
+             <ModalDeleteCollection isOpen={isModalDelete} closeModal={() => setIsModalDelete(false)} collectionName={collectionName} />
+             <ModalAddCollection isOpen={isModalAdd} closeModal={() => setIsModalAdd(false)}/>
         </Layout>
     );
   }

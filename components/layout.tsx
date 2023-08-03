@@ -3,6 +3,7 @@ import Image from 'next/image';
 import styles from './layout.module.css';
 import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
+import { Button } from '@mui/material';
 
 const name = 'Your Name';
 // export const siteTitle = 'Next.js Sample Website';
@@ -33,7 +34,7 @@ export default function Layout(layoutProps:LayoutProps) {
                 <title>{layoutProps.siteTitle}</title>
             </Head>
             <div className={styles.header}>
-                <Link href="/" className={styles.webname}>
+                <Link href="/" className={styles.nav}>
                 
                 {/* {layoutProps.home ? (
                 <>
@@ -67,6 +68,12 @@ export default function Layout(layoutProps:LayoutProps) {
                 </>
                 )} */}
                     <h2>MY ANIME LIST</h2>
+                </Link>
+                <Link href="/collection" className={styles.nav}>
+                    <Button color='primary' variant='contained'>
+                        Collections
+                    </Button>
+                    {/* <p>Collection</p> */}
                 </Link>
             </div>
             <main className={styles.container}>{layoutProps.children}</main>

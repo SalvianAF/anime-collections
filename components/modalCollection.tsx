@@ -3,6 +3,7 @@ import { Modal, Box, Fade, FormControl, Button, Autocomplete, TextField} from '@
 import { useEffect, useState } from 'react';
 import { gql } from '@apollo/client';
 import client from "../apollo-client";
+import ModalNew from "./modal"
 
 const name = 'Your Name';
 // export const siteTitle = 'Next.js Sample Website';
@@ -15,19 +16,6 @@ interface ModalProps {
     // collections:[]
 }
 
-
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 600,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-    zIndex:99
-  };
 
 
 export default function ModalCollection(modalProps:ModalProps) {
@@ -116,71 +104,59 @@ export default function ModalCollection(modalProps:ModalProps) {
       }
 
     return (
-        <Modal
-            open={modalProps.isOpen}
-            onClose={modalProps.closeModal}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-            sx={{paddingRight:0}}
-            disableScrollLock={true}
-            >
-            <Fade in={modalProps.isOpen}>
-                <Box sx={style}>
-                    {/* <div>{modalProps.children}</div> */}
-                    <FormControl fullWidth>
-                        {isAddCollection?
-                        <TextField label=" Add New Collection" variant="outlined" onChange={(e) => setCollection(e.target.value)}/>
-                        :
-                        <Autocomplete
-                            options={collections}
-                            id="clear-on-escape"
-                            clearOnEscape
-                            onChange={(e,data) => setCollection(data)}
-                            renderInput={(params) => (
-                            <TextField {...params} label="Collections" variant="outlined" />
-                            )}
-                        />
-                        }
-                        {isAddCollection?
-                        <Button variant="contained" color="secondary"  onClick={() => setIsAddCollection(false)}>SEARCH COLLECTION</Button>
-                        :
-                        <Button variant="contained" color="secondary"  onClick={() => {setIsAddCollection(true)}}>NEW COLLECTION</Button>
-                        }
-                        
-                        {modalProps.isAnimeDisabled?
-                            <TextField
-                              disabled
-                              variant="standard"
-                              label={"Anime"}
-                              placeholder="Favorites"
-                              value={modalProps.detailAnime.title.english}
-                              // onChange={(e) => fetchSearchAnime(e.target.value)}
-                          />
-                        :
-                        <Autocomplete
-                            multiple
-                            id="tags-standard"
-                            options={searchAnime}
-                            getOptionLabel={(option) => option.title.english}
-                            // defaultValue={[top100Films[13]]}
-                            onChange={(e,data) => setSelectedAnimes(data)}
-                            renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                variant="standard"
-                                label="Search Anime"
-                                placeholder="Favorites"
-                                onChange={(e) => fetchSearchAnime(e.target.value)}
-                            />
-                            )}
-                          />
-                        }
-                       
+      <ModalNew isOpen={modalProps.isOpen} closeModal={modalProps.closeModal}>
+        <FormControl fullWidth>
+            {isAddCollection?
+            <TextField label=" Add New Collection" variant="outlined" onChange={(e) => setCollection(e.target.value)}/>
+            :
+            <Autocomplete
+                options={collections}
+                id="clear-on-escape"
+                clearOnEscape
+                onChange={(e,data) => setCollection(data)}
+                renderInput={(params) => (
+                <TextField {...params} label="Collections" variant="outlined" />
+                )}
+            />
+            }
+            {isAddCollection?
+            <Button variant="contained" color="secondary"  onClick={() => setIsAddCollection(false)}>SEARCH COLLECTION</Button>
+            :
+            <Button variant="contained" color="secondary"  onClick={() => {setIsAddCollection(true)}}>NEW COLLECTION</Button>
+            }
+            
+            {modalProps.isAnimeDisabled?
+                <TextField
+                  disabled
+                  variant="standard"
+                  label={"Anime"}
+                  placeholder="Favorites"
+                  value={modalProps.detailAnime.title.english}
+                  // onChange={(e) => fetchSearchAnime(e.target.value)}
+              />
+            :
+            <Autocomplete
+                multiple
+                id="tags-standard"
+                options={searchAnime}
+                getOptionLabel={(option) => option.title.english}
+                // defaultValue={[top100Films[13]]}
+                onChange={(e,data) => setSelectedAnimes(data)}
+                renderInput={(params) => (
+                <TextField
+                    {...params}
+                    variant="standard"
+                    label="Search Anime"
+                    placeholder="Favorites"
+                    onChange={(e) => fetchSearchAnime(e.target.value)}
+                />
+                )}
+              />
+            }
+            
 
-                    </FormControl>
-                    <Button variant="contained" color="primary"  onClick={() => storeAnime()}>STORE ANIME</Button>
-                </Box>
-            </Fade>
-        </Modal>
+        </FormControl>
+        <Button variant="contained" color="primary"  onClick={() => storeAnime()}>STORE ANIME</Button>
+      </ModalNew>
     );
   }

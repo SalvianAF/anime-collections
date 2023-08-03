@@ -1,0 +1,14 @@
+.buttons{
+    display: flex;
+    justify-content: end;
+    margin-top: 10px;
+}
+.modaltitle{
+    margin-top: 0;
+}
+
+@media (max-width: 600px) {
+    .modalcontent{
+        width: 400px !important;
+    }
+  }

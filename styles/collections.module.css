@@ -28,3 +28,10 @@
     background-color: #feefd1;
     border-color: #e89e00;
 }
+
+.collectiontitle{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+}

@@ -11,6 +11,7 @@ interface CardProps {
     image: string,
     title: string,
     id:number,
+    isScore:boolean
 }
 
 export default function Card(cardProps:CardProps) {
@@ -19,7 +20,10 @@ export default function Card(cardProps:CardProps) {
             <Link href={`/detail/${cardProps.id}`}>
            {/* <h5>{anime.coverImage}</h5> */}
            {/* <div> */}
-           <h4 className={styles.score}><Star fontSize="medium" sx={{ color: "#e89e00"}}/>{cardProps.score}</h4>
+           {cardProps.isScore?
+            <h4 className={styles.score}><Star fontSize="medium" sx={{ color: "#e89e00"}}/>{cardProps.score}</h4>
+           :
+           <></>}
            <Image
                 src={cardProps.image} // Route of the image file
                 height={350} // Desired size with correct aspect ratio

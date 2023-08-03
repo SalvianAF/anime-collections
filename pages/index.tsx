@@ -149,78 +149,7 @@ export default function Home(animesProps:AnimesProps) { //Home(animes:AnimesProp
     //  setIsLoading(false)
     }
 
-    const storeAnime = () => {
-      // localStorage.setItem('items', JSON.stringify(temp));
-      // const p = "i4" //collection
-      // const dummy = {id:"a2sdfasdf", name:"sadfasd", coverImage:"afsdfasd"} //
-      const tempCollections = JSON.parse(localStorage.getItem('collections'));
-      if (tempCollections){ // check if the collections exists
-        if (collection in tempCollections){ // check if collection is in collections
-          selectedAnime.map((anime) => tempCollections[collection].push(anime));
-          // tempCollections[collection].push(dummy);
-          // const dummy2 = {...items, {}}
-          // console.log(temp)
-          // collections[p] = temp
-          localStorage.setItem('collections', JSON.stringify(tempCollections));
-        }else{
-          // tempCollections[collection] = [dummy]
-          // selectedAnime.map((anime) => tempCollections[collection].push(anime));
-          // const newCollection = {[collection]:[selectedAnime]}
-          tempCollections[collection] = selectedAnime
-          localStorage.setItem('collections', JSON.stringify(tempCollections));
-        }
-      }
-      else{
-        const newCollection = {[collection]:[selectedAnime]}
-        localStorage.setItem('collections', JSON.stringify(newCollection));
-      }
-      setIsModal(false)
-      // setCollections(Object.keys(localStorage.getItem('collections')))
-      // const collectionstemp = JSON.parse(localStorage.getItem('collections'))
-      // console.log(Object.keys(collectionstemp))
-      // setCollectionss(Object.keys(collections))
-      // setCollections(Object.keys(collections))
-    }
-
-    const modalPrep = () => {
-      setIsModal(true)
-      const collections = JSON.parse(localStorage.getItem('collections'));
-      if (!collections){
-        setIsAddCollection(true)
-      }else{
-        setIsAddCollection(false)
-        setCollections(Object.keys(collections))
-      }
-    }
-
-    const fetchSearchAnime = async(title) => {
-      const query = gql`
-      query ($search: String) { 
-        Page(page: 1, perPage: 10) {
-          media(search: $search, type: ANIME) {
-            coverImage {
-              extraLarge
-            }
-            id
-            title {
-              english
-            }
-          }
-        }
-      }
-      `;
-    
-      const { data } = await client.query({
-        query: query,
-        variables: {
-          search: title
-        }
-      })
-      setSearchAnime(data.Page.media)
-      console.log(data.Page.media)
-    // setData(data.Page.media)
-
-    }
+  
 
     return (
       <Layout siteTitle={'Anime Collections'}>
@@ -245,7 +174,8 @@ export default function Home(animesProps:AnimesProps) { //Home(animes:AnimesProp
           </section>
           <div className={styles.grid}>
             {data.map((anime) => (
-              <Card score={anime.averageScore} image={anime.coverImage.extraLarge} title={anime.title.english} id={anime.id}/>
+              <Card score={anime.averageScore} image={anime.coverImage.extraLarge} title={anime.title.english} 
+              id={anime.id} isScore={true}/>
             ))} 
           </div>
           <div className={styles.pagination}>

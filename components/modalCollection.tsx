@@ -85,12 +85,14 @@ export default function ModalCollection(modalProps:ModalProps) {
         selectedAnime.map((anime) => {
           tempSelectedAnime[anime.id] = anime
         } )
+        console.log(tempSelectedAnime)
         if (tempCollections){ // check if the collections exists
           if (collection in tempCollections){ // check if collection is in collections
-            Object.entries(tempSelectedAnime).map(([key, anime]) => tempCollections[collection][key] = anime);
+            Object.entries(tempSelectedAnime).map(([key, anime]) => tempCollections[collection][key] = anime); //adding anime to temp collection
+            // console.log(tempCollections)
             localStorage.setItem('collections', JSON.stringify(tempCollections));
           }else{
-            tempCollections[collection] = selectedAnime
+            tempCollections[collection] = tempSelectedAnime
             localStorage.setItem('collections', JSON.stringify(tempCollections));
           }
         }
@@ -102,6 +104,15 @@ export default function ModalCollection(modalProps:ModalProps) {
         modalProps.closeModal()
         
       }
+
+    const updateData = () => {
+      setSearchAnime([])
+      fetchCollections()
+    }
+
+    useEffect(() =>{
+      updateData()
+    },[modalProps.isOpen])
 
     return (
       <ModalNew isOpen={modalProps.isOpen} closeModal={modalProps.closeModal}>

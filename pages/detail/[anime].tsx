@@ -9,6 +9,7 @@ import ModalInput from '../../components/modalCollection';
 import { CircularProgress, Button} from '@mui/material';
 import ModalCollection from '../../components/modalCollection';
 import path from 'path';
+import Link from 'next/link';
 
 // export async function getStaticPaths() {
 //     const paths = getAllPostIds(); // isinya possible path
@@ -110,6 +111,8 @@ export default function Anime(anime) {
   const [detail, setDetail]  = useState<DetailInterface>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isModal, setIsModal] = useState<boolean>(false)
+  const [animeName, setAnimeName] = useState("")
+  const [collections, setCollections] = useState([])
   const router = useRouter()
   const id = Number(router.asPath.split('/detail/')[1])//get id from path
 
@@ -144,12 +147,32 @@ export default function Anime(anime) {
   })
 
   setDetail(data.Media)
+  setAnimeName(data.Media.title.english)
   setIsLoading(false)
+  }
+  
+  const checkCollections = () => {
+    const temp = JSON.parse(localStorage.getItem("collections"))
+    if (temp != undefined){
+      // const tempCollections = Object.keys(temp)
+      const tempCollections = []
+      Object.entries(temp).map(([key, collection]) => {
+        Object.values(collection).map((anime) => {
+          if (anime.title.english === animeName){
+            tempCollections.push(key)
+          }
+        })
+      })
+      // console.log("p")
+      // console.log(tempCollections)
+      setCollections(tempCollections)
+    }
   }
 
   useEffect(() => {
     fetchDetailAnime()
-  },[])
+    checkCollections()
+  },[isModal, isLoading])
 
   return (
     <>
@@ -187,7 +210,7 @@ export default function Anime(anime) {
               alt="Your Name"
               // style={{}}
           />
-           <Button color='primary' variant="contained" className={styles.btncollection}
+           <Button color='primary' variant="outlined"  className={styles.btncollection}
            onClick={() => setIsModal(true)}>ADD TO COLLECTION</Button>
         </div>
 
@@ -196,6 +219,19 @@ export default function Anime(anime) {
         </div> */}
        
         <div className={styles.description}>
+          {collections.length != 0 ?
+            <div>
+              <p>This anime already in collections : </p>
+              {collections.map((collection) => (
+                <Button variant='outlined' color='primary' sx={{marginRight:2}}>
+                  <Link href={`/collection/${collection}`} color='primary'>
+                    {collection}
+                  </Link>
+                </Button>
+              ))}
+
+            </div>
+          :<></>}
           <p dangerouslySetInnerHTML={{__html: detail.description}}></p>
         </div>
         <div className={styles.content}>

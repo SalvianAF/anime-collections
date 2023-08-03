@@ -48,7 +48,7 @@
     /* height: unset !important; */
 }
 .description{
-    margin: 265px 40px 0 40px;
+    margin: 280px 40px 0 40px;
     text-align: justify;
 }
 
@@ -74,6 +74,12 @@
     padding: 0px 10px 0px 10px;
     margin-top: 118%;
     margin-left:14px;
+    background-color: white;
+}
+
+.btncollection:hover{
+    color: white;
+    background-color: #e89e00;
 }
 /* .buttoncontainer{
     display: flex;

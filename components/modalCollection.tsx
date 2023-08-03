@@ -5,7 +5,6 @@ import { gql } from '@apollo/client';
 import client from "../apollo-client";
 import ModalNew from "./modal"
 
-const name = 'Your Name';
 // export const siteTitle = 'Next.js Sample Website';
 
 interface ModalProps {
@@ -19,7 +18,8 @@ interface ModalProps {
 
 
 export default function ModalCollection(modalProps:ModalProps) {
-    const [collection, setCollection] = useState("")
+    const [selectedCollection, setSelectedCollection] = useState([])
+    const [newCollection, setNewCollection] = useState("")
     const [collections, setCollections] = useState([])
     const [isAddCollection, setIsAddCollection] = useState<boolean>(false)
     const [selectedAnime, setSelectedAnimes] = useState([])
@@ -87,18 +87,30 @@ export default function ModalCollection(modalProps:ModalProps) {
         } )
         console.log(tempSelectedAnime)
         if (tempCollections){ // check if the collections exists
-          if (collection in tempCollections){ // check if collection is in collections
-            Object.entries(tempSelectedAnime).map(([key, anime]) => tempCollections[collection][key] = anime); //adding anime to temp collection
-            // console.log(tempCollections)
-            localStorage.setItem('collections', JSON.stringify(tempCollections));
-          }else{
-            tempCollections[collection] = tempSelectedAnime
+          if (isAddCollection){ // check if add collection
+            tempCollections[newCollection] = tempSelectedAnime
             localStorage.setItem('collections', JSON.stringify(tempCollections));
           }
+          selectedCollection.map((collection) => {
+            if (collection in tempCollections){ // check if collection is in collections
+              Object.entries(tempSelectedAnime).map(([key, anime]) => tempCollections[collection][key] = anime); //adding anime to temp collection
+              // console.log(tempCollections)
+              localStorage.setItem('collections', JSON.stringify(tempCollections));
+            }else{
+              selectedCollection.map((collection) => {
+                tempCollections[collection] = tempSelectedAnime
+                localStorage.setItem('collections', JSON.stringify(tempCollections));
+              })
+            }
+          })
         }
         else{
-          const newCollection = {[collection]:tempSelectedAnime}
-          localStorage.setItem('collections', JSON.stringify(newCollection));
+          // const newCollection = {}
+          // selectedCollection.map((collection) => {
+          //   newCollection[collection] = tempSelectedAnime
+          // })
+          const newCollectionData = {[newCollection]:tempSelectedAnime}
+          localStorage.setItem('collections', JSON.stringify(newCollectionData));
         }
         setIsAddCollection(false)
         modalProps.closeModal()
@@ -118,13 +130,14 @@ export default function ModalCollection(modalProps:ModalProps) {
       <ModalNew isOpen={modalProps.isOpen} closeModal={modalProps.closeModal}>
         <FormControl fullWidth>
             {isAddCollection?
-            <TextField label=" Add New Collection" variant="outlined" onChange={(e) => setCollection(e.target.value)}/>
+            <TextField label=" Add New Collection" variant="outlined" onChange={(e) => setNewCollection(e.target.value)}/>
             :
             <Autocomplete
+                multiple
                 options={collections}
                 id="clear-on-escape"
                 clearOnEscape
-                onChange={(e,data) => setCollection(data)}
+                onChange={(e,data) => setSelectedCollection(data)}
                 renderInput={(params) => (
                 <TextField {...params} label="Collections" variant="outlined" />
                 )}

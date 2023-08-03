@@ -169,7 +169,7 @@ export default function Home(animesProps:AnimesProps) { //Home(animes:AnimesProp
             </p>
             <h2 style={{textAlign:"center"}}>Trending Now</h2>
             <div className={styles.buttonadd}>
-              <Button variant="contained" color="primary"  onClick={() => setIsModal(true)}>ADD ANIME</Button>
+              <Button variant="contained" color="primary"  onClick={() => setIsModal(true)}>ADD COLLECTION</Button>
             </div>
           </section>
           <div className={styles.grid}>

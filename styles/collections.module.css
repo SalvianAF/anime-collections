@@ -13,15 +13,19 @@
     border-radius: 5px;
 }
 
-.engtitle{
+.collection{
     width: 50%;
     margin-left: 40px;
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 10px;
 }
 .actions{
     width: 35%;
-    margin-top: 13px;
+    /* margin-top: 13px; */
     display: flex;
     justify-content: center;
+    align-self: center;
 }
 
 .collectionrow:hover {
@@ -34,4 +38,8 @@
     flex-direction: row;
     justify-content: space-between;
     
+}
+.colname{
+    margin-left: 10px;
+    align-self: center;
 }

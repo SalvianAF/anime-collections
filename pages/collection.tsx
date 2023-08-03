@@ -26,6 +26,7 @@ import ModalAddCollection from '../components/modalAddCollection';
 
 export default function collection() {
     const [collections, setCollections] = useState([])
+    const [firstImg, setFirstImg] = useState([])
     const [isModalEdit, setIsModalEdit] = useState<boolean>(false)
     const [isModalDelete, setIsModalDelete] = useState<boolean>(false)
     const [isModalAdd, setIsModalAdd] = useState<boolean>(false)
@@ -33,13 +34,26 @@ export default function collection() {
 
     useEffect(() => {
         getCollections()
-    }, [isModalDelete, isModalEdit, isModalAdd])
+    }, [isModalDelete, isModalEdit, isModalAdd]) //update data after modal
 
     const getCollections = () => {
         const temp = JSON.parse(localStorage.getItem("collections"))
-        const tempCollections = Object.keys(temp)
-        console.log(tempCollections)
-        setCollections(tempCollections.reverse())
+        if (temp != undefined){
+            const tempCollections = Object.keys(temp)
+            setCollections(tempCollections.reverse())
+            const tempFirstImg = []
+            tempCollections.map((col) => {// get first anime image
+                const animes = Object.values(temp[col])
+                const firstAnime =animes[0]
+                const img = firstAnime.coverImage.extraLarge
+                tempFirstImg.push(img)
+                // tempFirstImg.push(temp[col].coverImage.extraLarge)
+            })
+            setFirstImg(tempFirstImg)
+        }
+        
+        // console.log(tempFirstImg)
+        // setFirstImg(tempFirstImg)
     }
 
 
@@ -61,8 +75,14 @@ export default function collection() {
                     //     </Button>
                     // </Link>
                     <div className={styles.collectionrow}>
-                        <Link href={`/collection/${collection}`} className={styles.engtitle}>            
-                                <h3>{idx+1}. &nbsp;{collection}</h3>
+                        <Link href={`/collection/${collection}`} className={styles.collection}>    
+                                <Image
+                                    src={firstImg[idx]} // Route of the image file
+                                    height={100} // Desired size with correct aspect ratio
+                                    width={80} // Desired size with correct aspect ratio
+                                    alt="Your Name"
+                                />        
+                                <h3 className={styles.colname}>{collection}</h3>
                         </Link>
                         <div className={styles.actions}>
                             <Button variant='contained' sx={{height:50, marginRight:2}}

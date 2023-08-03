@@ -24,6 +24,18 @@ import styles from '../../styles/animeCollection.module.css';
 //          };
 // }
 
+// export async function getStaticPaths() {
+//     const collections = Object.keys(JSON.parse(localStorage.getItem('collections')))
+//     const paths = []
+//     collections.map((collection) => {
+//         paths.push({params:{animes:collection}})
+//     })
+//     return {
+//       paths,
+//       fallback: false,
+//     };
+//   }
+
 // interface AnimesProps {
 //     animes:[
 //       {
@@ -46,18 +58,26 @@ import styles from '../../styles/animeCollection.module.css';
 
 export default function AnimeCollection() {
     const [animes, setAnimes] = useState([])
+    // const [loading, setAnimes] = useState([])
     const router = useRouter()
     const colName = router.asPath.split('/collection/')[1].replaceAll("%20", " ")//get collection name from path
 
     const getAnimesCollection = () => {
-        const tempCollections =  JSON.parse(localStorage.getItem('collections'))[colName];
+        let tempCollections =  JSON.parse(localStorage.getItem('collections'))[colName];
         // console.log(colName.replaceAll("%20", " "))
+        // while (tempCollections == undefined){
+        //     tempCollections =  JSON.parse(localStorage.getItem('collections'))[colName];
+        //     console.log("p")
+        // }
+        console.log(tempCollections)
         const tempAnimes = []
-        Object.values(tempCollections).map((anime) => {
-            tempAnimes.push(anime)
-        })
-
-        setAnimes(tempAnimes)
+        if (tempCollections != null){
+            Object.values(tempCollections).map((anime) => {
+                tempAnimes.push(anime)
+            })
+            setAnimes(tempAnimes)
+            console.log("here")
+        }
         // tempCollections[newCollection]
     }
 

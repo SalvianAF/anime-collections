@@ -70,16 +70,15 @@
 .btncollection{
     border-radius: 10px !important;
     font-size: smaller;
-    width: fit-content;
-    padding: 0px 10px 0px 10px !important;
+    padding: 0px 5px 0px 5px !important;
     margin-top: 118% !important;
-    margin-left:14px !important;
+    margin-left:13px !important;
     background-color: white !important;
 }
 
 .btncollection:hover{
-    color: white;
-    background-color: #e89e00;
+    color: white !important;
+    background-color: #e89e00 !important;
 }
 /* .buttoncontainer{
     display: flex;

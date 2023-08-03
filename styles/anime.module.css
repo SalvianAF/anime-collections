@@ -68,13 +68,13 @@
 }
 
 .btncollection{
-    border-radius: 10px;
+    border-radius: 10px !important;
     font-size: smaller;
     width: fit-content;
-    padding: 0px 10px 0px 10px;
-    margin-top: 118%;
-    margin-left:14px;
-    background-color: white;
+    padding: 0px 10px 0px 10px !important;
+    margin-top: 118% !important;
+    margin-left:14px !important;
+    background-color: white !important;
 }
 
 .btncollection:hover{

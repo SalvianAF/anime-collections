@@ -6,7 +6,7 @@ import Layout from '../components/layout';
 import { gql } from '@apollo/client';
 import client from '../apollo-client';
 import { useEffect, useState } from 'react';
-import { Button } from '@mui/material';
+import { Button, CircularProgress} from '@mui/material';
 import styles from '../styles/collections.module.css';
 import ModalEditCollection from '../components/modalEditCollection';
 import ModalDeleteCollection from '../components/modalDeleteCollection';
@@ -31,10 +31,11 @@ export default function collection() {
     const [isModalDelete, setIsModalDelete] = useState<boolean>(false)
     const [isModalAdd, setIsModalAdd] = useState<boolean>(false)
     const [collectionName, setCollectionName] = useState<string>("")
+    const [isLoading, setIsLoading] = useState<boolean>(true)
 
     useEffect(() => {
         getCollections()
-    }, [isModalDelete, isModalEdit, isModalAdd]) //update data after modal
+    }, [isModalDelete, isModalEdit, isModalAdd, isLoading]) //update data after modal
 
     const getCollections = () => {
         const temp = JSON.parse(localStorage.getItem("collections"))
@@ -43,14 +44,15 @@ export default function collection() {
             setCollections(tempCollections.reverse())
             const tempFirstImg = []
             tempCollections.map((col) => {// get first anime image
-                const animes = Object.values(temp[col])
-                const firstAnime =animes[0]
-                const img = firstAnime.coverImage.extraLarge
+                const animes:any = Object.values(temp[col]) [0]
+                // const firstAnime =animes[0]
+                const img = animes.coverImage.extraLarge
                 tempFirstImg.push(img)
                 // tempFirstImg.push(temp[col].coverImage.extraLarge)
             })
             setFirstImg(tempFirstImg)
         }
+        setIsLoading(false)
         
         // console.log(tempFirstImg)
         // setFirstImg(tempFirstImg)
@@ -58,6 +60,13 @@ export default function collection() {
 
 
     return (
+        <>
+         {isLoading? 
+            <div className={styles.loading}>
+                <CircularProgress sx={{color:"#e89e00"}}/>
+                <h4 style={{color:"#e89e00"}}>Getting Ready ...</h4>
+            </div>
+        :
         <Layout siteTitle='Collections'>
             <div className={styles.collectiontitle}>
                 <h2>MY COLLECTIONS</h2>
@@ -66,7 +75,7 @@ export default function collection() {
                         setIsModalAdd(true)
                     }}>ADD NEW</Button>
             </div>
-             <div className={styles.collections}>
+            <div className={styles.collections}>
                 {collections.map((collection, idx) => (
                     // <div className={styles.collections}>
                     // <Link href={`/collection/${collection}`}>
@@ -98,10 +107,13 @@ export default function collection() {
                         </div>
                     </div>
                 ))}
-             </div>
-             <ModalEditCollection isOpen={isModalEdit} closeModal={() => setIsModalEdit(false)} collectionName={collectionName}/>
-             <ModalDeleteCollection isOpen={isModalDelete} closeModal={() => setIsModalDelete(false)} collectionName={collectionName} />
-             <ModalAddCollection isOpen={isModalAdd} closeModal={() => setIsModalAdd(false)}/>
+            </div>
+            <ModalEditCollection isOpen={isModalEdit} closeModal={() => setIsModalEdit(false)} collectionName={collectionName}/>
+            <ModalDeleteCollection isOpen={isModalDelete} closeModal={() => setIsModalDelete(false)} collectionName={collectionName} />
+            <ModalAddCollection isOpen={isModalAdd} closeModal={() => setIsModalAdd(false)}/>
         </Layout>
+        }
+        </>
+       
     );
   }

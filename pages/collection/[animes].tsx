@@ -6,8 +6,9 @@ import Layout from '../../components/layout';
 import { gql } from '@apollo/client';
 import client from '../../apollo-client';
 import { useEffect, useState } from 'react';
-import { Button } from '@mui/material';
+import { Button, CircularProgress} from '@mui/material';
 // import styles from '../styles/collections.module.css';
+import utilsStyles from '../../styles/utils.module.css';
 import {useRouter} from 'next/router';
 import Card from '../../components/card';
 import styles from '../../styles/animeCollection.module.css';
@@ -60,6 +61,7 @@ import ModalEditCollection from '../../components/modalEditCollection';
 export default function AnimeCollection() {
     const [animes, setAnimes] = useState([])
     // const [loading, setAnimes] = useState([])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isModalEdit, setIsModalEdit] = useState<boolean>(false)
     const [isRedirect, setIsRedirect] = useState<boolean>(false)
     const [isDelete, setIsDelete] = useState<boolean>(false)
@@ -91,6 +93,7 @@ export default function AnimeCollection() {
             }
         }
         // tempCollections[newCollection]
+        setIsLoading(false)
         setIsDelete(false)//reset to trigger rerendering after delete anime
     }
 
@@ -102,6 +105,13 @@ export default function AnimeCollection() {
 
 
     return (
+        <>
+        {isLoading? 
+            <div className={utilsStyles.loading}>
+                <CircularProgress sx={{color:"#e89e00"}}/>
+                <h4 style={{color:"#e89e00"}}>Getting Ready ...</h4>
+            </div>
+        :
         <Layout siteTitle='Collections'>
              <h2>ANIME COLLECTION : "{colName}"</h2>
              <Button variant='contained' sx={{height:50, marginRight:2}}
@@ -132,5 +142,7 @@ export default function AnimeCollection() {
             }} collectionName={colName} />
             
         </Layout>
+        }
+        </>
     );
   }

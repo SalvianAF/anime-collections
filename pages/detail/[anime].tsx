@@ -5,6 +5,7 @@ import { gql } from "@apollo/client";
 import client from "../../apollo-client";
 import Image from 'next/image';
 import styles from '../../styles/anime.module.css';
+import utilsStyles from '../../styles/utils.module.css';
 import ModalInput from '../../components/modalCollection';
 import { CircularProgress, Button} from '@mui/material';
 import ModalCollection from '../../components/modalCollection';
@@ -108,7 +109,7 @@ interface DetailInterface {
 const DEFAULT_IMG = "/images/default.jpg"
 const DEFAULT_BANNER = "/images/banner-default-new.jpg"
 
-export default function Anime(anime) {
+export default function Anime() {
   //coba useeffect
   const [detail, setDetail]  = useState<DetailInterface>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -179,7 +180,7 @@ export default function Anime(anime) {
   return (
     <>
     {isLoading? 
-      <div className={styles.loading}>
+      <div className={utilsStyles.loading}>
         <CircularProgress sx={{color:"#e89e00"}}/>
         <h4 style={{color:"#e89e00"}}>Getting Ready ...</h4>
       </div>

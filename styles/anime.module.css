@@ -52,11 +52,6 @@
     text-align: justify;
 }
 
-.loading{
-    text-align: center;
-    margin-top: 20%;
-  }
-
 .content{
     /* margin-top: 280px; */
     margin: 30px 80px 0px 80px;
@@ -73,7 +68,7 @@
     width: 90%;
     /* margin-left: 1px; */
     padding: 0px 5px 0px 5px !important;
-    margin: 0 10px 0 10px;
+    margin: 0 10px 0 10px !important;
     margin-top: 118% !important;
     /* margin-left:13px !important; */
     background-color: white !important;

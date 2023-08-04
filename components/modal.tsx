@@ -43,9 +43,9 @@ export default function ModalNew(modalProps:ModalProps) {
             className={styles.modalcontent}
             >
             <Fade in={modalProps.isOpen}>
-                <Box sx={style}>
+                <div className={styles.modal}>
                     <div>{modalProps.children}</div>
-                </Box>
+                </div>
             </Fade>
         </Modal>
     );

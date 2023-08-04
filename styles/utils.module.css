@@ -50,3 +50,8 @@
 .lightText {
   color: #666;
 }
+
+.loading{
+  text-align: center;
+  margin-top: 20%;
+}

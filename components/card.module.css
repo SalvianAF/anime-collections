@@ -33,20 +33,10 @@
 .titleanime{
     display: none;
     position: absolute;
-    /* display:grid; */
-    /* z-index:1; */
-    /* height: 0; */
-    /* grid-area:1/1; */
-    /* bottom: 30px; */
     color: #ffffff;
     background-color: rgba(65, 65, 65, 0.518);
-    /* margin-left: -10px; */
     border-radius: 5px;
     padding: 0 5px 0 25px;
-    /* margin: 0 200px 0 200px; */
-    /* text-align: center; */
-    /* line-height:0px; */
-    /* transform: translateY(-200px); */
     max-width: 260px;
     min-width: 260px;
 }
@@ -60,10 +50,7 @@
     right: auto;
     padding-left: 10px;
     padding-right: 5px;
-    /* border-radius: 5px; */
     z-index:1;
-    /* transform: translateX(1400%);  */
-    /* right: 180px; */
 }
 
 .card:hover .titleanime{
@@ -71,17 +58,11 @@
     animation-name: animeName;
     animation-duration: 1s;
     animation-fill-mode: forwards; 
-    /* transform: translateY(-100px); */
 }
 
 .delete{
     position: absolute !important;
-    /* display:flex; */
-    /* width: 50px; */
-    /* width: 0px; */
     padding: 3px 0px 3px 0px !important;
-    /* flex-direction: row;
-    justify-content: end; */
     background-color: #ffffff !important;
     margin-top: 10px !important;
     margin-left: 230px !important;

@@ -23,14 +23,12 @@ export default function AnimeCollection() {
             setColName(tempCollections[0])
         }else{
             let tempCollections =  JSON.parse(localStorage.getItem('collections'))[colName];
-            console.log(Object.keys(JSON.parse(localStorage.getItem('collections'))))
             const tempAnimes = []
             if (tempCollections != null){
                 Object.values(tempCollections).map((anime) => {
                     tempAnimes.push(anime)
                 })
                 setAnimes(tempAnimes)
-                console.log("here")
             }
         }
         setIsLoading(false)
@@ -39,8 +37,7 @@ export default function AnimeCollection() {
 
     useEffect(() => {
         getAnimesCollection()
-        console.log(colName)
-    },[isModalEdit, isDelete])
+    },[isModalEdit, isDelete]) //update data after edit or delete
 
 
     return (
@@ -68,7 +65,7 @@ export default function AnimeCollection() {
                     ))
                 :<></>}
             </div>
-            <ModalEditCollection isOpen={isModalEdit} closeModal={() => {
+            <ModalEditCollection isOpen={isModalEdit} closeModal={() => setIsModalEdit(false)} submit={() => {
                 setIsModalEdit(false) 
                 setIsRedirect(true)
             }} collectionName={colName} />

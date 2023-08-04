@@ -88,7 +88,7 @@ export default function collection() {
                     </div>
                 ))}
             </div>
-            <ModalEditCollection isOpen={isModalEdit} closeModal={() => setIsModalEdit(false)} collectionName={collectionName}/>
+            <ModalEditCollection isOpen={isModalEdit} closeModal={() => setIsModalEdit(false)} collectionName={collectionName} submit={() => setIsModalEdit(false)}/>
             <ModalDeleteCollection isOpen={isModalDelete} closeModal={() => setIsModalDelete(false)} collectionName={collectionName} />
             <ModalAddCollection isOpen={isModalAdd} closeModal={() => setIsModalAdd(false)}/>
         </Layout>

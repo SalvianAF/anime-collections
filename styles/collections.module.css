@@ -1,13 +1,10 @@
 .collections {
-    /* margin-top: 30px; */
     padding: 15px 0 15px 0;
     border: 2px solid #e89e00;
     border-radius: 10px;
 
 }
 .collectionrow {
-    /* width: 100%; */
-    /* height: 70px !important; */
     margin: 0 20px 10px 20px !important;
     border-bottom: 3px solid rgb(178, 178, 178);
     display: flex;
@@ -26,7 +23,6 @@
 }
 .actions{
     width: 35%;
-    /* margin-top: 13px; */
     display: flex;
     justify-content: center;
     align-self: center;

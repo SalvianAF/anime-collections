@@ -1,19 +1,17 @@
 
-import { Modal, Box, Fade, FormControl, Button, Autocomplete, TextField} from '@mui/material';
+import { FormControl, Button, Autocomplete, TextField} from '@mui/material';
 import { useEffect, useState } from 'react';
 import { gql } from '@apollo/client';
 import client from "../apollo-client";
 import ModalNew from "./modal"
 import styles from './modal.module.css';
 
-// export const siteTitle = 'Next.js Sample Website';
 
 interface ModalProps {
     isAnimeDisabled:boolean
     detailAnime: any
     isOpen:boolean
     closeModal:any
-    // collections:[]
 }
 
 
@@ -47,7 +45,6 @@ export default function ModalCollection(modalProps:ModalProps) {
         tempAnime["coverImage"] = modalProps.detailAnime.coverImage
         tempAnime["id"] = modalProps.detailAnime.id
         tempAnime["title"] = modalProps.detailAnime.title
-        // const tempAnimeList = [tempAnime]
         setSelectedAnimes([tempAnime])
       }
     }
@@ -76,7 +73,6 @@ export default function ModalCollection(modalProps:ModalProps) {
           }
         })
         setSearchAnime(data.Page.media)
-        console.log(data.Page.media)
   
       }
 
@@ -86,7 +82,6 @@ export default function ModalCollection(modalProps:ModalProps) {
         selectedAnime.map((anime) => {
           tempSelectedAnime[anime.id] = anime
         } )
-        console.log(tempSelectedAnime)
         if (tempCollections){ // check if the collections exists
           if (isAddCollection){ // check if add collection
             tempCollections[newCollection] = tempSelectedAnime
@@ -95,7 +90,6 @@ export default function ModalCollection(modalProps:ModalProps) {
           selectedCollection.map((collection) => {
             if (collection in tempCollections){ // check if collection is in collections
               Object.entries(tempSelectedAnime).map(([key, anime]) => tempCollections[collection][key] = anime); //adding anime to temp collection
-              // console.log(tempCollections)
               localStorage.setItem('collections', JSON.stringify(tempCollections));
             }else{
               selectedCollection.map((collection) => {
@@ -106,10 +100,6 @@ export default function ModalCollection(modalProps:ModalProps) {
           })
         }
         else{
-          // const newCollection = {}
-          // selectedCollection.map((collection) => {
-          //   newCollection[collection] = tempSelectedAnime
-          // })
           const newCollectionData = {[newCollection]:tempSelectedAnime}
           localStorage.setItem('collections', JSON.stringify(newCollectionData));
         }

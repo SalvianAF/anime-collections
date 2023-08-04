@@ -1,19 +1,13 @@
 
-import { Modal, Box, Fade, FormControl, Button, Autocomplete, TextField} from '@mui/material';
-import { useEffect, useState } from 'react';
-import { gql } from '@apollo/client';
-import client from "../apollo-client";
+import { FormControl, Button, TextField} from '@mui/material';
+import { useState } from 'react';
 import ModalNew from "./modal"
 import styles from './modal.module.css';
 
 
-const name = 'Your Name';
-// export const siteTitle = 'Next.js Sample Website';
-
 interface ModalProps {
     isOpen:boolean
     closeModal:any
-    // collections:[]
 }
 
 export default function ModalAddCollection(modalProps:ModalProps) {
@@ -24,7 +18,6 @@ export default function ModalAddCollection(modalProps:ModalProps) {
         if (tempCollections){ //check if collections exist
             if (Object.keys(tempCollections).includes(newCollection) == false){ //preventing overiding existing collection
                 //assign new key
-                // console.log(newCollection, Object.keys(tempCollections))
                 tempCollections[newCollection] = {};
                 localStorage.setItem('collections', JSON.stringify(tempCollections))
             }

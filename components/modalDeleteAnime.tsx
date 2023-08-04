@@ -1,14 +1,7 @@
 
-import { Modal, Box, Fade, FormControl, Button, Autocomplete, TextField} from '@mui/material';
-import { useEffect, useState } from 'react';
-import { gql } from '@apollo/client';
-import client from "../apollo-client";
+import {FormControl, Button} from '@mui/material';
 import ModalNew from "./modal"
 import styles from './modal.module.css';
-
-
-const name = 'Your Name';
-// export const siteTitle = 'Next.js Sample Website';
 
 interface ModalProps {
     isOpen:boolean
@@ -22,11 +15,8 @@ export default function ModalDeleteAnime(modalProps:ModalProps) {
 
     const deleteAnime = () => {
         const tempCollections = JSON.parse(localStorage.getItem('collections'));
-        console.log(modalProps.animeId)
-        console.log(modalProps.collection)
         // Delete old key
         delete tempCollections[modalProps.collection][modalProps.animeId];
-        console.log(tempCollections)
         localStorage.setItem('collections', JSON.stringify(tempCollections))
         modalProps.closeModal()
     }

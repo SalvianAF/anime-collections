@@ -1,8 +1,6 @@
 
-import { Modal, Box, Fade, FormControl, Button, Autocomplete, TextField} from '@mui/material';
-import { useEffect, useState } from 'react';
-import { gql } from '@apollo/client';
-import client from "../apollo-client";
+import {FormControl, Button, TextField} from '@mui/material';
+import { useState } from 'react';
 import ModalNew from "./modal"
 import styles from './modal.module.css';
 
@@ -11,9 +9,10 @@ const name = 'Your Name';
 // export const siteTitle = 'Next.js Sample Website';
 
 interface ModalProps {
-    isOpen:boolean
-    closeModal:any
-    collectionName:string
+    isOpen:boolean,
+    closeModal:any,
+    collectionName:string,
+    submit:any, // for updating when edit in anime collection page
     // collections:[]
 }
 
@@ -32,7 +31,7 @@ export default function ModalEditCollection(modalProps:ModalProps) {
             localStorage.setItem('collections', JSON.stringify(tempCollections))
 
         }
-        modalProps.closeModal()
+        modalProps.submit()
     }
 
 

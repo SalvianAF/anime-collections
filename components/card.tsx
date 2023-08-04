@@ -6,9 +6,6 @@ import { Button } from '@mui/material';
 import ModalDeleteAnime from './modalDeleteAnime';
 import { useState } from 'react';
 
-// const name = 'Your Name';
-// export const siteTitle = 'Next.js Sample Website';
-
 interface CardProps {
     score: number,
     image: string,
@@ -37,16 +34,14 @@ export default function Card(cardProps:CardProps) {
             <></>
            }
             <Link href={`/detail/${cardProps.id}`}>
-           {/* <h5>{anime.coverImage}</h5> */}
-           {/* <div> */}
            {cardProps.isScore?
             <h4 className={styles.score}><Star fontSize="medium" color='primary'/>{cardProps.score}</h4>
            :
            <></>}
            <Image
-                src={cardProps.image} // Route of the image file
-                height={350} // Desired size with correct aspect ratio
-                width={300} // Desired size with correct aspect ratio
+                src={cardProps.image} 
+                height={350} 
+                width={300}
                 alt="Your Name"
             />
             <h4 className={styles.titleanime}>{cardProps.title}</h4>

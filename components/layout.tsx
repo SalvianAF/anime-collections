@@ -1,16 +1,11 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import styles from './layout.module.css';
-import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
 import { Button } from '@mui/material';
 
-const name = 'Your Name';
-// export const siteTitle = 'Next.js Sample Website';
 
 interface LayoutProps {
     children: any,
-    // home: boolean,
     siteTitle: string
 }
 
@@ -41,15 +36,9 @@ export default function Layout(layoutProps:LayoutProps) {
                     <Button color='secondary' variant='outlined'>
                         <h4 className={styles.menubtn}>MY COLLECTIONS</h4>
                     </Button>
-                    {/* <p>Collection</p> */}
                 </Link>
             </div>
             <main className={styles.container}>{layoutProps.children}</main>
-            {/* {!layoutProps.home && (
-                <div className={styles.backToHome}>
-                <Link href="/">← Back to home</Link>
-                </div>
-            )} */}
         </div>
     );
   }

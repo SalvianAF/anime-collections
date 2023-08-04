@@ -1,18 +1,11 @@
 
-import { Modal, Box, Fade, FormControl, Button, Autocomplete, TextField} from '@mui/material';
-import { useEffect, useState } from 'react';
-import { gql } from '@apollo/client';
-import client from "../apollo-client";
+import { Modal, Fade} from '@mui/material';
 import styles from './modal.module.css';
-
-const name = 'Your Name';
-// export const siteTitle = 'Next.js Sample Website';
 
 interface ModalProps {
     isOpen:boolean
     closeModal:any
     children:any
-    // collections:[]
 }
 
 

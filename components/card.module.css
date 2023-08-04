@@ -75,21 +75,21 @@
 }
 
 .delete{
-    position: absolute;
+    position: absolute !important;
     /* display:flex; */
     /* width: 50px; */
     /* width: 0px; */
-    padding: 3px 0px 3px 0px;
+    padding: 3px 0px 3px 0px !important;
     /* flex-direction: row;
     justify-content: end; */
-    background-color: #ffffff;
-    margin-top: 10px;
-    margin-left: 230px;
-    border-radius: 5px;
+    background-color: #ffffff !important;
+    margin-top: 10px !important;
+    margin-left: 230px !important;
+    border-radius: 5px !important;
 }
 
 .delete:hover{
-    background-color: #e59b9b;
+    background-color: #e59b9b !important;
 }
 
 @keyframes animeName {

@@ -74,11 +74,6 @@ export async function getStaticProps() { //for initial data
 export default function Home(animesProps:AnimesProps) { 
     const [data, setData] = useState(animesProps.animes)
     const [isModal, setIsModal] = useState<boolean>(false)
-    const [collections, setCollections] = useState([])
-    const [collection, setCollection] = useState<string>("")
-    const [searchAnime, setSearchAnime] = useState([])
-    const [selectedAnime, setSelectedAnimes] = useState([])
-    const [isAddCollection, setIsAddCollection] = useState<boolean>(false)
 
     const fetchAnimes = async(page) => { //update data on page changes
       const query = gql`

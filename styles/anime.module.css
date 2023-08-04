@@ -70,9 +70,12 @@
 .btncollection{
     border-radius: 10px !important;
     font-size: smaller;
+    width: 90%;
+    /* margin-left: 1px; */
     padding: 0px 5px 0px 5px !important;
+    margin: 0 10px 0 10px;
     margin-top: 118% !important;
-    margin-left:13px !important;
+    /* margin-left:13px !important; */
     background-color: white !important;
 }
 

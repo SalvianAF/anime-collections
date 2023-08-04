@@ -12,6 +12,7 @@ import ModalEditCollection from '../components/modalEditCollection';
 import ModalDeleteCollection from '../components/modalDeleteCollection';
 import ModalAddCollection from '../components/modalAddCollection';
 
+
 // export async function getStaticProps() {
 //     const tempCollections = localStorage.getItem('collections')
 //     const collections = Object.keys(tempCollections)
@@ -23,6 +24,7 @@ import ModalAddCollection from '../components/modalAddCollection';
 //             },
 //          };
 // }
+const DEFAULT_IMG = "/images/default.jpg"
 
 export default function collection() {
     const [collections, setCollections] = useState([])
@@ -41,13 +43,17 @@ export default function collection() {
         const temp = JSON.parse(localStorage.getItem("collections"))
         if (temp != undefined){
             const tempCollections = Object.keys(temp)
-            setCollections(tempCollections.reverse())
+            setCollections(tempCollections.reverse()) //the newest is in the top
             const tempFirstImg = []
             tempCollections.map((col) => {// get first anime image
                 const animes:any = Object.values(temp[col]) [0]
+                if (animes != undefined){       
+                    const img = animes.coverImage.extraLarge
+                    tempFirstImg.push(img)
+                }else{
+                    tempFirstImg.push(DEFAULT_IMG)
+                }
                 // const firstAnime =animes[0]
-                const img = animes.coverImage.extraLarge
-                tempFirstImg.push(img)
                 // tempFirstImg.push(temp[col].coverImage.extraLarge)
             })
             setFirstImg(tempFirstImg)
@@ -99,7 +105,7 @@ export default function collection() {
                                 setIsModalEdit(true)
                                 setCollectionName(collection)}
                             }>EDIT</Button>
-                            <Button variant='outlined' color="secondary" sx={{height:50}}
+                            <Button variant='outlined' color="error" sx={{height:50}}
                             onClick={() => {
                                 setIsModalDelete(true)
                                 setCollectionName(collection)

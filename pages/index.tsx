@@ -175,7 +175,7 @@ export default function Home(animesProps:AnimesProps) { //Home(animes:AnimesProp
           <div className={styles.grid}>
             {data.map((anime) => (
               <Card score={anime.averageScore} image={anime.coverImage.extraLarge} title={anime.title.english} 
-              id={anime.id} isScore={true}/>
+              id={anime.id} isScore={true} isDelete={false} collection='' submit={""}/>
             ))} 
           </div>
           <div className={styles.pagination}>

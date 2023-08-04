@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { gql } from '@apollo/client';
 import client from "../apollo-client";
 import ModalNew from "./modal"
+import styles from './modal.module.css';
 
 // export const siteTitle = 'Next.js Sample Website';
 
@@ -128,59 +129,67 @@ export default function ModalCollection(modalProps:ModalProps) {
 
     return (
       <ModalNew isOpen={modalProps.isOpen} closeModal={modalProps.closeModal}>
+        <h3 className={styles.modaltitle}>Add Anime Collection</h3>
         <FormControl fullWidth>
+          <div className={styles.inputs}>
             {isAddCollection?
-            <TextField label=" Add New Collection" variant="outlined" onChange={(e) => setNewCollection(e.target.value)}/>
-            :
-            <Autocomplete
-                multiple
-                options={collections}
-                id="clear-on-escape"
-                clearOnEscape
-                onChange={(e,data) => setSelectedCollection(data)}
-                renderInput={(params) => (
-                <TextField {...params} label="Collections" variant="outlined" />
-                )}
-            />
-            }
-            {isAddCollection?
-            <Button variant="contained" color="secondary"  onClick={() => setIsAddCollection(false)}>SEARCH COLLECTION</Button>
-            :
-            <Button variant="contained" color="secondary"  onClick={() => {setIsAddCollection(true)}}>NEW COLLECTION</Button>
-            }
-            
+              <TextField label=" Add New Collection" variant="outlined" onChange={(e) => setNewCollection(e.target.value)}/>
+              :
+              <Autocomplete
+                  multiple
+                  options={collections}
+                  id="clear-on-escape"
+                  clearOnEscape
+                  onChange={(e,data) => setSelectedCollection(data)}
+                  renderInput={(params) => (
+                  <TextField {...params} label="Search Collections" variant="outlined" />
+                  )}
+              />
+              }
+              {isAddCollection?
+              <Button variant="outlined" color="primary"  onClick={() => setIsAddCollection(false)}>SEARCH COLLECTION</Button>
+              :
+              <Button variant="outlined" color="primary"  onClick={() => {setIsAddCollection(true)}}>NEW COLLECTION</Button>
+              }
+
+          </div>
+          <div className={styles.inputs}>
             {modalProps.isAnimeDisabled?
-                <TextField
-                  disabled
-                  variant="standard"
-                  label={"Anime"}
-                  placeholder="Favorites"
-                  value={modalProps.detailAnime.title.english}
-                  // onChange={(e) => fetchSearchAnime(e.target.value)}
-              />
-            :
-            <Autocomplete
-                multiple
-                id="tags-standard"
-                options={searchAnime}
-                getOptionLabel={(option) => option.title.english}
-                // defaultValue={[top100Films[13]]}
-                onChange={(e,data) => setSelectedAnimes(data)}
-                renderInput={(params) => (
-                <TextField
-                    {...params}
+                  <TextField
+                    disabled
                     variant="standard"
-                    label="Search Anime"
+                    label={"Anime"}
                     placeholder="Favorites"
-                    onChange={(e) => fetchSearchAnime(e.target.value)}
+                    value={modalProps.detailAnime.title.english}
+                    // onChange={(e) => fetchSearchAnime(e.target.value)}
                 />
-                )}
-              />
-            }
-            
+              :
+              <Autocomplete
+                  multiple
+                  id="tags-standard"
+                  options={searchAnime}
+                  getOptionLabel={(option) => option.title.english}
+                  // defaultValue={[top100Films[13]]}
+                  onChange={(e,data) => setSelectedAnimes(data)}
+                  renderInput={(params) => (
+                  <TextField
+                      {...params}
+                      variant="outlined"
+                      label="Search Anime"
+                      placeholder="Enter Anime Name"
+                      onChange={(e) => fetchSearchAnime(e.target.value)}
+                  />
+                  )}
+                />
+              }
+          </div>
 
         </FormControl>
-        <Button variant="contained" color="primary"  onClick={() => storeAnime()}>STORE ANIME</Button>
+        <div className={styles.buttons}>
+        <Button variant="outlined" color="error"  onClick={() => modalProps.closeModal()}
+                sx={{width:100, marginRight:3}}>Cancle</Button>
+          <Button variant="contained" color="primary"  onClick={() => storeAnime()}>STORE ANIME</Button>
+        </div>
       </ModalNew>
     );
   }

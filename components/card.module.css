@@ -74,6 +74,24 @@
     /* transform: translateY(-100px); */
 }
 
+.delete{
+    position: absolute;
+    /* display:flex; */
+    /* width: 50px; */
+    /* width: 0px; */
+    padding: 3px 0px 3px 0px;
+    /* flex-direction: row;
+    justify-content: end; */
+    background-color: #ffffff;
+    margin-top: 10px;
+    margin-left: 230px;
+    border-radius: 5px;
+}
+
+.delete:hover{
+    background-color: #e59b9b;
+}
+
 @keyframes animeName {
     from {transform: translateY(-30px);}
     to { transform: translateY(-110px);}

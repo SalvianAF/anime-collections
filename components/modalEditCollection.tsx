@@ -23,12 +23,15 @@ export default function ModalEditCollection(modalProps:ModalProps) {
     const editCollection = () => {
         const tempCollections = JSON.parse(localStorage.getItem('collections'));
 
-        //assign new key
-        tempCollections[newCollection] = tempCollections[modalProps.collectionName];
- 
-        // Delete old key
-        delete tempCollections[modalProps.collectionName];
-        localStorage.setItem('collections', JSON.stringify(tempCollections))
+        if (Object.keys(tempCollections).includes(newCollection) == false){ //prevent edit with same name as other collection
+              //assign new key
+            tempCollections[newCollection] = tempCollections[modalProps.collectionName];
+    
+            // Delete old key
+            delete tempCollections[modalProps.collectionName];
+            localStorage.setItem('collections', JSON.stringify(tempCollections))
+
+        }
         modalProps.closeModal()
     }
 

@@ -70,8 +70,8 @@ export default function Layout(layoutProps:LayoutProps) {
                     <h2>MY ANIME LIST</h2>
                 </Link>
                 <Link href="/collection" className={styles.nav}>
-                    <Button color='primary' variant='contained'>
-                        Collections
+                    <Button color='secondary' variant='outlined'>
+                        MY COLLECTIONS
                     </Button>
                     {/* <p>Collection</p> */}
                 </Link>

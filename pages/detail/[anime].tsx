@@ -105,6 +105,8 @@ interface DetailInterface {
     }
   
 }
+const DEFAULT_IMG = "/images/default.jpg"
+const DEFAULT_BANNER = "/images/banner-default-new.jpg"
 
 export default function Anime(anime) {
   //coba useeffect
@@ -185,8 +187,9 @@ export default function Anime(anime) {
       <Layout siteTitle={detail.title.english}>
         {/* <h2>pathname:- {router.pathname}</h2> */}
         {}
-        <div className={styles.bannercontainer}> 
-          <Image
+        <div className={styles.bannercontainer}>
+          {detail.bannerImage != null?
+            <Image
               src={detail.bannerImage} // Route of the image file
               // height={175} // Desired size with correct aspect ratio
               // width={1000} // Desired size with correct aspect ratio
@@ -196,7 +199,20 @@ export default function Anime(anime) {
               className={styles.banner}
               alt="Your Name"
               // style={{}}
-          />
+            />
+          :
+            <Image
+              src={DEFAULT_BANNER} // Route of the image file
+              // height={175} // Desired size with correct aspect ratio
+              // width={1000} // Desired size with correct aspect ratio
+              // objectFit="cover"
+              // fill
+              layout="fill" 
+              className={styles.banner}
+              alt="Your Name"
+              // style={{}}
+            />
+          } 
         </div>
         <div className={styles.imagecontainer}> 
           <Image

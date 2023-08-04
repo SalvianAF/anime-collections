@@ -6,85 +6,9 @@ import client from "../../apollo-client";
 import Image from 'next/image';
 import styles from '../../styles/anime.module.css';
 import utilsStyles from '../../styles/utils.module.css';
-import ModalInput from '../../components/modalCollection';
 import { CircularProgress, Button} from '@mui/material';
 import ModalCollection from '../../components/modalCollection';
-import path from 'path';
 import Link from 'next/link';
-
-// export async function getStaticPaths() {
-//     const paths = getAllPostIds(); // isinya possible path
-//     return {
-//         paths,
-//         fallback: false,
-//     };
-// }
-
-// export async function getStaticProps({ params }) {
-//     const postData = getPostData(params.id); //buat propsnya
-//     return {
-//       props: {
-//         postData,
-//       },
-//     };
-// }
-
-// export async function getStaticPaths() {
-//   const paths = {params: {
-//     id: 100,
-//   }}
-//   // for (let i = 0; i < 5000; i++) {
-//   //   paths.push(i)
-//   // }
-//   // const paths = getAllPostIds();
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// }
-
-
-
-// export async function getStaticProps() {
-//   const router = useRouter()
-//   const id = router.asPath.split('/detail/')[1] //get id from path
-//   console.log(id)
-//   const query = gql`
-//     query ($mediaId: Int) { 
-//       Media(id: $mediaId) {
-//         bannerImage
-//         coverImage {
-//           extraLarge
-//         }
-//         id
-//         duration
-//         description
-//         episodes
-//         genres
-//         averageScore
-//         status
-//         title {
-//           english
-//           native
-//         }
-//       }
-//     }
-//     `;
-
-//   const { data } = await client.query({
-//     query: query,
-//     variables: {
-//       mediaId: 146065
-//     }
-//   })
-
-//   return {
-//     props: {
-//       anime: data.Media,
-//     },
-//  };
-
-// }
 
 interface DetailInterface {
     __typename: string,
@@ -106,11 +30,11 @@ interface DetailInterface {
     }
   
 }
-const DEFAULT_IMG = "/images/default.jpg"
+
+// const DEFAULT_IMG = "/images/default.jpg"
 const DEFAULT_BANNER = "/images/banner-default-new.jpg"
 
 export default function Anime() {
-  //coba useeffect
   const [detail, setDetail]  = useState<DetailInterface>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isModal, setIsModal] = useState<boolean>(false)
@@ -157,7 +81,6 @@ export default function Anime() {
   const checkCollections = () => {
     const temp = JSON.parse(localStorage.getItem("collections"))
     if (temp != undefined){
-      // const tempCollections = Object.keys(temp)
       const tempCollections = []
       Object.entries(temp).map(([key, collection]) => {
         Object.values(collection).map((anime) => {
@@ -166,8 +89,6 @@ export default function Anime() {
           }
         })
       })
-      // console.log("p")
-      // console.log(tempCollections)
       setCollections(tempCollections)
     }
   }
@@ -185,55 +106,35 @@ export default function Anime() {
         <h4 style={{color:"#e89e00"}}>Getting Ready ...</h4>
       </div>
    :
-      <Layout siteTitle={detail.title.english}>
-        {/* <h2>pathname:- {router.pathname}</h2> */}
-        {}
+    <Layout siteTitle={detail.title.english}>
+       <div className={styles.detail}>
         <div className={styles.bannercontainer}>
           {detail.bannerImage != null?
             <Image
-              src={detail.bannerImage} // Route of the image file
-              // height={175} // Desired size with correct aspect ratio
-              // width={1000} // Desired size with correct aspect ratio
-              // objectFit="cover"
-              // fill
+              src={detail.bannerImage} 
               layout="fill" 
               className={styles.banner}
               alt="Your Name"
-              // style={{}}
             />
           :
             <Image
-              src={DEFAULT_BANNER} // Route of the image file
-              // height={175} // Desired size with correct aspect ratio
-              // width={1000} // Desired size with correct aspect ratio
-              // objectFit="cover"
-              // fill
+              src={DEFAULT_BANNER} 
               layout="fill" 
               className={styles.banner}
               alt="Your Name"
-              // style={{}}
             />
           } 
         </div>
         <div className={styles.imagecontainer}> 
           <Image
-              src={detail.coverImage.extraLarge} // Route of the image file
-              // height={320} // Desired size with correct aspect ratio
-              // width={270} // Desired size with correct aspect ratio
-              // objectFit="cover"
-              // fill
+              src={detail.coverImage.extraLarge}
               layout="fill" 
               className={styles.image}
               alt="Your Name"
-              // style={{}}
           />
            <Button color='primary' variant="outlined"  className={styles.btncollection}
            onClick={() => setIsModal(true)}>ADD TO COLLECTION</Button>
         </div>
-
-        {/* <div className={styles.buttoncontainer}>
-          <Button color='primary' variant="contained">ADD TO COLLECTION</Button>
-        </div> */}
        
         <div className={styles.description}>
           {collections.length != 0 ?
@@ -267,11 +168,9 @@ export default function Anime() {
           <h3>STATUS : {detail.status}</h3>
           
         </div>
-        {console.log(detail)}
-        {/* <h2>query:- {router.query}</h2> */}
-          {/* <h2>asPath:- {router.asPath}</h2> */}
-        <ModalCollection isOpen={isModal} closeModal={() => setIsModal(false)} isAnimeDisabled={true} detailAnime={detail}/>
-      </Layout>
+      </div>
+      <ModalCollection isOpen={isModal} closeModal={() => setIsModal(false)} isAnimeDisabled={true} detailAnime={detail}/>
+    </Layout>
     
     }
     </>

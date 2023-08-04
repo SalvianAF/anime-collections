@@ -35,43 +35,11 @@ export default function Layout(layoutProps:LayoutProps) {
             </Head>
             <div className={styles.header}>
                 <Link href="/" className={styles.nav}>
-                
-                {/* {layoutProps.home ? (
-                <>
-                    <Image
-                    priority
-                    src="/images/profile.jpg"
-                    className={utilStyles.borderCircle}
-                    height={144}
-                    width={144}
-                    alt=""
-                    />
-                    <h1 className={utilStyles.heading2Xl}>{name}</h1>
-                </>
-                ) : (
-                <>
-                    <Link href="/">
-                    <Image
-                        priority
-                        src="/images/profile.jpg"
-                        className={utilStyles.borderCircle}
-                        height={108}
-                        width={108}
-                        alt=""
-                    />
-                    </Link>
-                    <h2 className={utilStyles.headingLg}>
-                    <Link href="/" className={utilStyles.colorInherit}>
-                        {name}
-                    </Link>
-                    </h2>
-                </>
-                )} */}
                     <h2>MY ANIME LIST</h2>
                 </Link>
                 <Link href="/collection" className={styles.nav}>
                     <Button color='secondary' variant='outlined'>
-                        MY COLLECTIONS
+                        <h4 className={styles.menubtn}>MY COLLECTIONS</h4>
                     </Button>
                     {/* <p>Collection</p> */}
                 </Link>

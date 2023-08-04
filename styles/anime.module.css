@@ -78,6 +78,12 @@
     color: white !important;
     background-color: #e89e00 !important;
 }
+
+.detail{
+    padding: 7px;
+    border: 3px solid #e89e00;
+    border-radius: 10px;
+}
 /* .buttoncontainer{
     display: flex;
     justify-content: end;

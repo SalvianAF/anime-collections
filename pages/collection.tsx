@@ -1,10 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import Head from 'next/head';
-import Script from 'next/script';
 import Layout from '../components/layout';
-import { gql } from '@apollo/client';
-import client from '../apollo-client';
+import utilsStyles from '../styles/utils.module.css';
 import { useEffect, useState } from 'react';
 import { Button, CircularProgress} from '@mui/material';
 import styles from '../styles/collections.module.css';
@@ -12,18 +9,6 @@ import ModalEditCollection from '../components/modalEditCollection';
 import ModalDeleteCollection from '../components/modalDeleteCollection';
 import ModalAddCollection from '../components/modalAddCollection';
 
-
-// export async function getStaticProps() {
-//     const tempCollections = localStorage.getItem('collections')
-//     const collections = Object.keys(tempCollections)
-//     // console.log(s)
-
-//     return {
-//             props: {
-//               collections: collections,
-//             },
-//          };
-// }
 const DEFAULT_IMG = "/images/default.jpg"
 
 export default function collection() {
@@ -43,7 +28,7 @@ export default function collection() {
         const temp = JSON.parse(localStorage.getItem("collections"))
         if (temp != undefined){
             const tempCollections = Object.keys(temp)
-            setCollections(tempCollections.reverse()) //the newest is in the top
+            setCollections(tempCollections.reverse()) //the newest is in the start
             const tempFirstImg = []
             tempCollections.map((col) => {// get first anime image
                 const animes:any = Object.values(temp[col]) [0]
@@ -53,22 +38,17 @@ export default function collection() {
                 }else{
                     tempFirstImg.push(DEFAULT_IMG)
                 }
-                // const firstAnime =animes[0]
-                // tempFirstImg.push(temp[col].coverImage.extraLarge)
             })
             setFirstImg(tempFirstImg)
         }
         setIsLoading(false)
-        
-        // console.log(tempFirstImg)
-        // setFirstImg(tempFirstImg)
     }
 
 
     return (
         <>
          {isLoading? 
-            <div className={styles.loading}>
+            <div className={utilsStyles.loading}>
                 <CircularProgress sx={{color:"#e89e00"}}/>
                 <h4 style={{color:"#e89e00"}}>Getting Ready ...</h4>
             </div>
@@ -83,18 +63,12 @@ export default function collection() {
             </div>
             <div className={styles.collections}>
                 {collections.map((collection, idx) => (
-                    // <div className={styles.collections}>
-                    // <Link href={`/collection/${collection}`}>
-                    //     <Button className={styles.btncollection} variant='contained' >
-                    //         <h3>{collection}</h3>
-                    //     </Button>
-                    // </Link>
                     <div className={styles.collectionrow}>
                         <Link href={`/collection/${collection}`} className={styles.collection}>    
                                 <Image
-                                    src={firstImg[idx]} // Route of the image file
-                                    height={100} // Desired size with correct aspect ratio
-                                    width={80} // Desired size with correct aspect ratio
+                                    src={firstImg[idx]} 
+                                    height={100}
+                                    width={80} 
                                     alt="Your Name"
                                 />        
                                 <h3 className={styles.colname}>{collection}</h3>

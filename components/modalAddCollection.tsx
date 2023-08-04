@@ -21,12 +21,16 @@ export default function ModalAddCollection(modalProps:ModalProps) {
 
     const addCollection = () => {
         const tempCollections = JSON.parse(localStorage.getItem('collections'));
-
-        if (Object.keys(tempCollections).includes(newCollection) == false){ //preventing overiding existing collection
-            //assign new key
-            // console.log(newCollection, Object.keys(tempCollections))
-            tempCollections[newCollection] = {};
-            localStorage.setItem('collections', JSON.stringify(tempCollections))
+        if (tempCollections){ //check if collections exist
+            if (Object.keys(tempCollections).includes(newCollection) == false){ //preventing overiding existing collection
+                //assign new key
+                // console.log(newCollection, Object.keys(tempCollections))
+                tempCollections[newCollection] = {};
+                localStorage.setItem('collections', JSON.stringify(tempCollections))
+            }
+        }else{
+            const newCollectionData = {[newCollection]:{}}
+            localStorage.setItem('collections', JSON.stringify(newCollectionData));
         }
         modalProps.closeModal()
     }
